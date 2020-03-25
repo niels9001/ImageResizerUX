@@ -1,0 +1,201 @@
+﻿<Page
+    x:Class="ImageResizer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ImageResizer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ToolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Background="Transparent"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls">
+
+    <Page.Resources>
+
+     
+    </Page.Resources>
+    <Grid Background="{StaticResource BackgroundAcrylicBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="86"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="64"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="360"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Background="{StaticResource SolidBackgroundColor}"
+              Grid.RowSpan="3"/>
+
+
+        <TextBlock Text="Selected images"
+                   FontWeight="Bold"
+                   FontSize="16"
+                   Style="{ThemeResource TitleTextBlockStyle}"
+                   VerticalAlignment="Center"
+                   Margin="12,24,0,0"/>
+
+        <TextBlock Text="Configuration"
+                   FontWeight="Bold"
+                   FontSize="16"
+                   Grid.Column="1"
+                   Style="{ThemeResource TitleTextBlockStyle}"
+                   VerticalAlignment="Center"
+                   Margin="12,24,0,0" />
+
+        <CheckBox x:Name="AllCheckbox"
+                  Grid.Row="1"
+                  Margin="12"
+                  VerticalAlignment="Top">
+            <CheckBox.Content>
+                <TextBlock Text="       File"
+                                Foreground="{ThemeResource SystemBaseMediumColor}"/>
+            </CheckBox.Content>
+        </CheckBox>
+
+        <TextBlock Text="Dimensions"
+                   Foreground="{ThemeResource SystemBaseMediumColor}"
+                   Margin="382,18,0,0"
+                   Grid.Row="1" />
+
+        <TextBlock Text="Type"
+                   Foreground="{ThemeResource SystemBaseMediumColor}"
+                   Margin="504,18,0,0"
+                   Grid.Row="1" />
+
+        <ListView ItemsSource="{x:Bind SelectedPhotos, Mode=TwoWay}"
+                  Margin="0,48,0,0" 
+                  Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:Photo">
+                    <Grid Height="78">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <ToolkitControls:DropShadowPanel x:Name="DropShadowHolder" Margin="24,12,12,12"  Grid.Column="1"
+                               BlurRadius="8"
+                               ShadowOpacity="0.2"
+                               OffsetX="0"
+                               OffsetY="0"
+                               Color="{StaticResource DropShadowColor}">
+                            <Image Source="{x:Bind Path}" Width="64"  />
+                        </ToolkitControls:DropShadowPanel>
+                        
+                        <CheckBox IsChecked="{Binding IsChecked, ElementName=AllCheckbox}" Content="" Grid.Column="0" />
+
+                        <TextBlock Text="{x:Bind FileName}" FontWeight="SemiBold" Grid.Column="2" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Bind Dimensions}" Grid.Column="3" VerticalAlignment="Center" Foreground="{ThemeResource SystemBaseMediumHighColor}"/>
+                        <TextBlock Text="{x:Bind Type}" Grid.Column="4" VerticalAlignment="Center" Foreground="{ThemeResource SystemBaseMediumHighColor}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <StackPanel Grid.Column="1" Grid.Row="1" Spacing="16" Margin="12,18,0,12">
+            <TextBlock Text="Select a size"
+                   Foreground="{ThemeResource SystemBaseMediumColor}" />
+            <RadioButton GroupName="SizePresetGroup" Margin="0,18,0,0">
+                <RadioButton.Content>
+                    <StackPanel Margin="12,0,0,0">
+                        <TextBlock Text="Small" FontWeight="SemiBold"/>
+                        <TextBlock Text="Fits within 854 x 480 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    </StackPanel>
+                </RadioButton.Content>
+            </RadioButton>
+
+            <RadioButton GroupName="SizePresetGroup">
+                <RadioButton.Content>
+                    <StackPanel Margin="12,0,0,0">
+                        <TextBlock Text="Medium" FontWeight="SemiBold"/>
+                        <TextBlock Text="Fits within 1366 x 768 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    </StackPanel>
+                </RadioButton.Content>
+            </RadioButton>
+
+            <RadioButton GroupName="SizePresetGroup">
+                <RadioButton.Content>
+                    <StackPanel Margin="12,0,0,0">
+                        <TextBlock Text="Large" FontWeight="SemiBold"/>
+                        <TextBlock Text="Fits within 1920 x 1080 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    </StackPanel>
+                </RadioButton.Content>
+            </RadioButton>
+
+            <RadioButton GroupName="SizePresetGroup">
+                <RadioButton.Content>
+                    <StackPanel Margin="12,0,0,0">
+                        <TextBlock Text="Phone" FontWeight="SemiBold"/>
+                        <TextBlock Text="Fits within 320 x 569 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    </StackPanel>
+                </RadioButton.Content>
+            </RadioButton>
+
+            <RadioButton GroupName="SizePresetGroup">
+                <RadioButton.Content>
+                    <StackPanel Margin="12,0,0,0">
+                        <TextBlock Text="4K" FontWeight="SemiBold"/>
+                        <TextBlock Text="Fits within 3840 x 2160 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    </StackPanel>
+                </RadioButton.Content>
+            </RadioButton>
+
+                <RadioButton GroupName="SizePresetGroup" Checked="RadioButton_Checked" Unchecked="RadioButton_Unchecked">
+                    <RadioButton.Content>
+                    <StackPanel Margin="12,4,0,0">
+                        <TextBlock Text="Custom" />
+                        <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,0">
+                            <controls:NumberBox x:Name="WidthBox"/>
+                            <TextBlock Text="x" VerticalAlignment="Center" FontSize="14"/>
+                            <controls:NumberBox x:Name="HeightBox"/>
+
+                        </StackPanel>
+                    </StackPanel>
+                    </RadioButton.Content>
+            </RadioButton>
+           
+            <MenuFlyoutSeparator Margin="0,24,0,24"/>
+
+            <CheckBox Content="Make pictures smaller but not larger"/>
+            <CheckBox Content="Ignore the orientation of pictures" IsChecked="True"/>
+
+
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Spacing="12" Margin="12" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+
+            <controls:SplitButton Style="{ThemeResource SplitButtonRevealStyle}" Foreground="White" Background="{ThemeResource SystemAccentColor}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE74E;" FontSize="14" FontFamily="Segoe MDL2 Assets" />
+                    <TextBlock Text="Save"/>
+                </StackPanel>
+                <controls:SplitButton.Flyout>
+                    <MenuFlyout Placement="Bottom">
+                    <MenuFlyoutItem Text="Save a copy"/>
+                    </MenuFlyout>
+                </controls:SplitButton.Flyout>
+            </controls:SplitButton>
+            <Button Content="Cancel" />
+
+        </StackPanel>
+        <Button Grid.Row="3" Background="Transparent" Grid.Column="1" Margin="12,6,0,0">
+            <Button.Content>
+                <FontIcon Glyph="&#xE713;" />
+            </Button.Content>
+        </Button>
+
+        <TextBlock Grid.Row="2" Margin="12" VerticalAlignment="Bottom">
+            <Run Text="Items selected:"/>
+            <Run Text="7" FontWeight="Bold"/>
+            <Run Text=" |   Resizing: "/>
+            <Run Text="0" FontWeight="Bold"/>
+        </TextBlock>
+        <TextBlock Text="Image Resizer for Windows" FontSize="12" Margin="12,8,0,0" VerticalAlignment="Top" />
+    </Grid>
+</Page>
