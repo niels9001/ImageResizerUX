@@ -8,14 +8,35 @@
     xmlns:ToolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d" 
     Background="Transparent"
+    Loaded="Page_Loaded"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls">
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity">
 
     <Page.Resources>
-
-     
+        <DataTemplate x:DataType="local:ImageOption" x:Key="ImageOptionDataTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{x:Bind Title}" FontSize="16" Grid.Column="1" FontWeight="SemiBold"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Spacing="4" Grid.Column="1" Margin="0,0,0,0" >
+                    <TextBlock Text="Fits within" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <TextBlock Text="{x:Bind Width}" FontWeight="SemiBold" />
+                    <TextBlock Text="x" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <TextBlock Text="{x:Bind Height}" FontWeight="SemiBold"/>
+                    <TextBlock Text="{x:Bind Unit}" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
     <Grid Background="{StaticResource BackgroundAcrylicBrush}">
+      
         <Grid.RowDefinitions>
             <RowDefinition Height="86"/>
             <RowDefinition Height="*"/>
@@ -23,179 +44,143 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="360"/>
+            <ColumnDefinition Width="*" x:Name="PreviewColumn"/>
+            <ColumnDefinition Width="320" />
+          
         </Grid.ColumnDefinitions>
 
-        <Grid Background="{StaticResource SolidBackgroundColor}"
+        <Grid Grid.Column="0" Background="{StaticResource SolidBackgroundColor}"
               Grid.RowSpan="3"/>
 
 
-        <TextBlock Text="Selected images"
+        <TextBlock Text="Preview"
                    FontWeight="Bold"
                    FontSize="16"
+                   Grid.Column="0"
                    Style="{ThemeResource TitleTextBlockStyle}"
                    VerticalAlignment="Center"
-                   Margin="12,24,0,0"/>
+                   Margin="12,36,0,0"/>
 
-        <TextBlock Text="Configuration"
+        <TextBlock Text="Configure image size"
                    FontWeight="Bold"
                    FontSize="16"
                    Grid.Column="1"
                    Style="{ThemeResource TitleTextBlockStyle}"
                    VerticalAlignment="Center"
-                   Margin="12,24,0,0" />
+                   Margin="12,36,0,0" />
 
-        <CheckBox x:Name="AllCheckbox"
-                  Grid.Row="1"
-                  Margin="12"
-                  VerticalAlignment="Top">
-            <CheckBox.Content>
-                <TextBlock Text="       File"
-                                Foreground="{ThemeResource SystemBaseMediumColor}"/>
-            </CheckBox.Content>
-        </CheckBox>
-
-        <TextBlock Text="Dimensions"
-                   Foreground="{ThemeResource SystemBaseMediumColor}"
-                   Margin="382,18,0,0"
-                   Grid.Row="1" />
-
-        <TextBlock Text="Type"
-                   Foreground="{ThemeResource SystemBaseMediumColor}"
-                   Margin="504,18,0,0"
-                   Grid.Row="1" />
-
+        
         <ListView ItemsSource="{x:Bind SelectedPhotos, Mode=TwoWay}"
-                  Margin="0,48,0,0" 
+                  IsItemClickEnabled="False"
+                  Margin="0,24,0,0"
+                  Grid.Column="0"
                   Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:Photo">
-                    <Grid Height="78">
+                    <Grid Height="64">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="32"/>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="220"/>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
                         </Grid.ColumnDefinitions>
-                        <ToolkitControls:DropShadowPanel x:Name="DropShadowHolder" Margin="24,12,12,12"  Grid.Column="1"
-                               BlurRadius="8"
+                        <ToolkitControls:DropShadowPanel x:Name="DropShadowHolder" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0"
+                               BlurRadius="4"
                                ShadowOpacity="0.2"
                                OffsetX="0"
-                               OffsetY="0"
+                               OffsetY="4"
                                Color="{StaticResource DropShadowColor}">
-                            <Image Source="{x:Bind Path}" Width="64"  />
+                            <Image Source="{x:Bind Path}" Width="48"  />
                         </ToolkitControls:DropShadowPanel>
-                        
-                        <CheckBox IsChecked="{Binding IsChecked, ElementName=AllCheckbox}" Content="" Grid.Column="0" />
 
-                        <TextBlock Text="{x:Bind FileName}" FontWeight="SemiBold" Grid.Column="2" VerticalAlignment="Center" />
-                        <TextBlock Text="{x:Bind Dimensions}" Grid.Column="3" VerticalAlignment="Center" Foreground="{ThemeResource SystemBaseMediumHighColor}"/>
-                        <TextBlock Text="{x:Bind Type}" Grid.Column="4" VerticalAlignment="Center" Foreground="{ThemeResource SystemBaseMediumHighColor}"/>
+                        <TextBlock Text="{x:Bind FileName}" Margin="12,0,0,0" FontWeight="SemiBold" Grid.Column="1" VerticalAlignment="Center" />
+                        <Border CornerRadius="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{ThemeResource SystemAccentColor}">
+                            <TextBlock FontSize="12" Foreground="{ThemeResource SystemAccentColor}" Text="{x:Bind Dimensions}" Padding="8,4,8,4" />
+                        </Border>
+                        <TextBlock Text="{x:Bind OldDimensions}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{ThemeResource SystemBaseMediumLowColor}"/>
+                        <Border CornerRadius="4" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{ThemeResource SystemAccentColor}">
+                            <TextBlock FontSize="12" Foreground="{ThemeResource SystemAccentColor}" Text="{x:Bind Size}" Padding="8,4,8,4" />
+                        </Border>
+                        <TextBlock Text="{x:Bind OldSize}" FontSize="12" Grid.Column="6" Margin="-12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{ThemeResource SystemBaseMediumLowColor}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
-        <StackPanel Grid.Column="1" Grid.Row="1" Spacing="16" Margin="12,18,0,12">
-            <TextBlock Text="Select a size"
-                   Foreground="{ThemeResource SystemBaseMediumColor}" />
-            <RadioButton GroupName="SizePresetGroup" Margin="0,18,0,0">
-                <RadioButton.Content>
-                    <StackPanel Margin="12,0,0,0">
-                        <TextBlock Text="Small" FontWeight="SemiBold"/>
-                        <TextBlock Text="Fits within 854 x 480 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+
+        <StackPanel Orientation="Vertical" Margin="12,24,12,0" Grid.Column="1" Grid.Row="1">
+            <ComboBox x:Name="ImageOptionsComboBox" Height="64" ItemsSource="{x:Bind ImageOptions}" ItemTemplate="{StaticResource ImageOptionDataTemplate}" SelectedIndex="0" HorizontalAlignment="Stretch"/>
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,24,0,24" Grid.Row="1" Spacing="8" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                        <Border Width="32" Height="33" Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}" BorderBrush="{ThemeResource TextControlBorderBrush}" BorderThickness="1,1,0,1" CornerRadius="2,0,0,2">
+                            <TextBlock  Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}" FontSize="12" Text="W" Margin="-2,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <ToolTipService.ToolTip>Width</ToolTipService.ToolTip>
+                        </Border>
+                    <TextBox x:Name="WidthText" CornerRadius="0,2,2,0" Width="110" Text="854" />
+                        <ComboBox x:Name="OriginalCB" SelectedIndex="0" Height="33" Width="142" Margin="12,0,0,0">
+                            <ComboBoxItem>Pixels</ComboBoxItem>
+                            <ComboBoxItem>Percent</ComboBoxItem>
+                            <ComboBoxItem>Inches</ComboBoxItem>
+                            <ComboBoxItem>Centimeters</ComboBoxItem>
+                        </ComboBox>
                     </StackPanel>
-                </RadioButton.Content>
-            </RadioButton>
-
-            <RadioButton GroupName="SizePresetGroup">
-                <RadioButton.Content>
-                    <StackPanel Margin="12,0,0,0">
-                        <TextBlock Text="Medium" FontWeight="SemiBold"/>
-                        <TextBlock Text="Fits within 1366 x 768 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="32" Height="33" Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}" BorderBrush="{ThemeResource TextControlBorderBrush}" BorderThickness="1,1,0,1" CornerRadius="2,0,0,2">
+                        <TextBlock Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}" FontSize="12" Text="H" Margin="-2,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <ToolTipService.ToolTip>Height</ToolTipService.ToolTip>
+                    </Border>
+                    <TextBox x:Name="HeightText" Text="480" CornerRadius="0,2,2,0" Width="110" />
+                        <ComboBox x:Name="CopyCB" SelectedIndex="{Binding ElementName=OriginalCB, Path=SelectedIndex}" Height="33" Width="142" Margin="12,0,0,0">
+                            <ComboBoxItem>Pixels</ComboBoxItem>
+                            <ComboBoxItem>Percent</ComboBoxItem>
+                            <ComboBoxItem>Inches</ComboBoxItem>
+                            <ComboBoxItem>Centimeters</ComboBoxItem>
+                        </ComboBox>
                     </StackPanel>
-                </RadioButton.Content>
-            </RadioButton>
-
-            <RadioButton GroupName="SizePresetGroup">
-                <RadioButton.Content>
-                    <StackPanel Margin="12,0,0,0">
-                        <TextBlock Text="Large" FontWeight="SemiBold"/>
-                        <TextBlock Text="Fits within 1920 x 1080 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="32" Height="33" Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}" BorderBrush="{ThemeResource TextControlBorderBrush}" BorderThickness="1,1,0,1" CornerRadius="2,0,0,2">
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}" FontSize="12" Text="&#xE740;" Margin="-2,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <ToolTipService.ToolTip>Stretch</ToolTipService.ToolTip>
+                    </Border>
+                        <ComboBox x:Name="StretchBox" SelectedIndex="0" Height="33" Width="110" CornerRadius="0,2,2,0" Margin="0,0,0,0">
+                            <ComboBoxItem>Fill</ComboBoxItem>
+                            <ComboBoxItem>Fit</ComboBoxItem>
+                            <ComboBoxItem>Stretch</ComboBoxItem>
+                        </ComboBox>
                     </StackPanel>
-                </RadioButton.Content>
-            </RadioButton>
-
-            <RadioButton GroupName="SizePresetGroup">
-                <RadioButton.Content>
-                    <StackPanel Margin="12,0,0,0">
-                        <TextBlock Text="Phone" FontWeight="SemiBold"/>
-                        <TextBlock Text="Fits within 320 x 569 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                    </StackPanel>
-                </RadioButton.Content>
-            </RadioButton>
-
-            <RadioButton GroupName="SizePresetGroup">
-                <RadioButton.Content>
-                    <StackPanel Margin="12,0,0,0">
-                        <TextBlock Text="4K" FontWeight="SemiBold"/>
-                        <TextBlock Text="Fits within 3840 x 2160 pixels" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                    </StackPanel>
-                </RadioButton.Content>
-            </RadioButton>
-
-                <RadioButton GroupName="SizePresetGroup" Checked="RadioButton_Checked" Unchecked="RadioButton_Unchecked">
-                    <RadioButton.Content>
-                    <StackPanel Margin="12,4,0,0">
-                        <TextBlock Text="Custom" />
-                        <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,0">
-                            <controls:NumberBox x:Name="WidthBox"/>
-                            <TextBlock Text="x" VerticalAlignment="Center" FontSize="14"/>
-                            <controls:NumberBox x:Name="HeightBox"/>
-
-                        </StackPanel>
-                    </StackPanel>
-                    </RadioButton.Content>
-            </RadioButton>
-           
-            <MenuFlyoutSeparator Margin="0,24,0,24"/>
-
-            <CheckBox Content="Make pictures smaller but not larger"/>
-            <CheckBox Content="Ignore the orientation of pictures" IsChecked="True"/>
-
-
+                </StackPanel>
+              
+            <CheckBox x:Name="PresetCheckBox" Margin="0,8,0,0" Content="Save as new preset" Visibility="Collapsed" />
+            <CheckBox Margin="0,8,0,0" Content="Make pictures smaller, not larger" />
+            <CheckBox Margin="0,8,0,0" IsChecked="True" Content="Ignore the orientation of pictures" />
         </StackPanel>
+      
+        
 
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Spacing="12" Margin="12" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Spacing="12" Margin="0,0,12,12" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
 
             <controls:SplitButton Style="{ThemeResource SplitButtonRevealStyle}" Foreground="White" Background="{ThemeResource SystemAccentColor}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <FontIcon Glyph="&#xE74E;" FontSize="14" FontFamily="Segoe MDL2 Assets" />
-                    <TextBlock Text="Save"/>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <FontIcon Glyph="&#xE73F;" FontSize="14" FontFamily="Segoe MDL2 Assets" />
+                    <TextBlock Text="Resize"/>
                 </StackPanel>
                 <controls:SplitButton.Flyout>
                     <MenuFlyout Placement="Bottom">
-                    <MenuFlyoutItem Text="Save a copy"/>
+                        <MenuFlyoutItem Text="Resize a copy"/>
                     </MenuFlyout>
                 </controls:SplitButton.Flyout>
             </controls:SplitButton>
-            <Button Content="Cancel" />
-
         </StackPanel>
-        <Button Grid.Row="3" Background="Transparent" Grid.Column="1" Margin="12,6,0,0">
+        <Button Grid.Row="3" Background="Transparent" Grid.Column="1" Margin="8,8,0,0">
             <Button.Content>
                 <FontIcon Glyph="&#xE713;" />
             </Button.Content>
         </Button>
-
-        <TextBlock Grid.Row="2" Margin="12" VerticalAlignment="Bottom">
-            <Run Text="Items selected:"/>
-            <Run Text="7" FontWeight="Bold"/>
-            <Run Text=" |   Resizing: "/>
-            <Run Text="0" FontWeight="Bold"/>
-        </TextBlock>
-        <TextBlock Text="Image Resizer for Windows" FontSize="12" Margin="12,8,0,0" VerticalAlignment="Top" />
+        <StackPanel Orientation="Horizontal">
+            <!--<TextBlock Text="&#xE73F;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="12,10,0,0" VerticalAlignment="Top" />-->
+            <TextBlock Text="Image Resizer for Windows" FontSize="12" Margin="12,8,0,0" VerticalAlignment="Top" />
+        </StackPanel>
     </Grid>
 </Page>
