@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ToolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d" 
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     Background="Transparent"
     Loaded="Page_Loaded"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
@@ -28,30 +29,28 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Spacing="4" Grid.Column="1" Margin="0,0,0,0" >
                     <TextBlock Text="Fits within" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <TextBlock Text="{x:Bind Width}" FontWeight="SemiBold" />
-                    <TextBlock Text="x" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <TextBlock Text="x" FontWeight="SemiBold" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <TextBlock Text="{x:Bind Height}" FontWeight="SemiBold"/>
                     <TextBlock Text="{x:Bind Unit}" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
     </Page.Resources>
-    <Grid Background="{StaticResource BackgroundAcrylicBrush}">
-      
+
+    <Grid Background="{ThemeResource BackgroundAcrylicBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="86"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="64"/>
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" x:Name="PreviewColumn"/>
             <ColumnDefinition Width="320" />
-          
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="{StaticResource SolidBackgroundColor}"
+        <Grid Grid.Column="0"
+              Background="{ThemeResource SolidBackgroundColor}"
               Grid.RowSpan="3"/>
-
 
         <TextBlock Text="Preview"
                    FontWeight="Bold"
@@ -74,6 +73,8 @@
                   IsItemClickEnabled="False"
                   Margin="0,24,0,0"
                   Grid.Column="0"
+                  extensions:ListViewExtensions.AlternateColor="#11AAAAAA"
+                  Grid.RowSpan="2"
                   Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:Photo">
@@ -84,8 +85,6 @@
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="40"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
                         </Grid.ColumnDefinitions>
                         <ToolkitControls:DropShadowPanel x:Name="DropShadowHolder" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0"
                                BlurRadius="4"
@@ -101,16 +100,16 @@
                             <TextBlock FontSize="12" Foreground="{ThemeResource SystemAccentColor}" Text="{x:Bind Dimensions}" Padding="8,4,8,4" />
                         </Border>
                         <TextBlock Text="{x:Bind OldDimensions}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{ThemeResource SystemBaseMediumLowColor}"/>
-                        <Border CornerRadius="4" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{ThemeResource SystemAccentColor}">
+                        <!--<Border CornerRadius="4" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{ThemeResource SystemAccentColor}">
                             <TextBlock FontSize="12" Foreground="{ThemeResource SystemAccentColor}" Text="{x:Bind Size}" Padding="8,4,8,4" />
                         </Border>
-                        <TextBlock Text="{x:Bind OldSize}" FontSize="12" Grid.Column="6" Margin="-12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{ThemeResource SystemBaseMediumLowColor}"/>
+                        <TextBlock Text="{x:Bind OldSize}" FontSize="12" Grid.Column="6" Margin="-12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{ThemeResource SystemBaseMediumLowColor}"/> -->
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <StackPanel Orientation="Vertical" Margin="12,24,12,0" Grid.Column="1" Grid.Row="1">
+        <StackPanel x:Name="SidePanel" Orientation="Vertical" Margin="12,24,12,0" Grid.Column="1" Grid.Row="1">
             <ComboBox x:Name="ImageOptionsComboBox" Height="64" ItemsSource="{x:Bind ImageOptions}" ItemTemplate="{StaticResource ImageOptionDataTemplate}" SelectedIndex="0" HorizontalAlignment="Stretch"/>
             <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,24,0,24" Grid.Row="1" Spacing="8" Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
@@ -156,29 +155,27 @@
             <CheckBox Margin="0,8,0,0" Content="Make pictures smaller, not larger" />
             <CheckBox Margin="0,8,0,0" IsChecked="True" Content="Ignore the orientation of pictures" />
         </StackPanel>
-      
-        
 
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Spacing="12" Margin="0,0,12,12" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
 
-            <controls:SplitButton Style="{ThemeResource SplitButtonRevealStyle}" Foreground="White" Background="{ThemeResource SystemAccentColor}">
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                    <FontIcon Glyph="&#xE73F;" FontSize="14" FontFamily="Segoe MDL2 Assets" />
-                    <TextBlock Text="Resize"/>
-                </StackPanel>
-                <controls:SplitButton.Flyout>
-                    <MenuFlyout Placement="Bottom">
-                        <MenuFlyoutItem Text="Resize a copy"/>
-                    </MenuFlyout>
-                </controls:SplitButton.Flyout>
-            </controls:SplitButton>
-        </StackPanel>
-        <Button Grid.Row="3" Background="Transparent" Grid.Column="1" Margin="8,8,0,0">
+        <controls:SplitButton Style="{ThemeResource SplitButtonRevealStyle}" Margin="12" Grid.Row="2" Foreground="White" Background="{ThemeResource SystemAccentColor}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon Glyph="&#xE73F;" FontSize="14" FontFamily="Segoe MDL2 Assets" />
+                <TextBlock Text="Resize"/>
+            </StackPanel>
+            <controls:SplitButton.Flyout>
+                <MenuFlyout Placement="Bottom">
+                    <MenuFlyoutItem Text="Resize a copy"/>
+                </MenuFlyout>
+            </controls:SplitButton.Flyout>
+        </controls:SplitButton>
+
+        <Button x:Name="SettingsBtn" Grid.Row="3" Background="Transparent" Grid.Column="1" Margin="8,8,0,0">
             <Button.Content>
                 <FontIcon Glyph="&#xE713;" />
             </Button.Content>
         </Button>
-        <StackPanel Orientation="Horizontal">
+        
+        <StackPanel x:Name="TitleBar" Orientation="Horizontal">
             <!--<TextBlock Text="&#xE73F;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="12,10,0,0" VerticalAlignment="Top" />-->
             <TextBlock Text="Image Resizer for Windows" FontSize="12" Margin="12,8,0,0" VerticalAlignment="Top" />
         </StackPanel>

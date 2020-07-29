@@ -13,13 +13,13 @@
             <ResourceDictionary.ThemeDictionaries>
 
                 <ResourceDictionary x:Key="Light">
-                    <AcrylicBrush x:Key="BackgroundAcrylicBrush" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.7" FallbackColor="{ThemeResource SystemChromeMediumLowColor}"/>
+                    <AcrylicBrush x:Key="BackgroundAcrylicBrush" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.9" FallbackColor="{ThemeResource SystemChromeMediumLowColor}"/>
                     <Color x:Key="DropShadowColor">#FF979797</Color>
                     <Color x:Key="SolidBackgroundColor">White</Color>
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Default">
-                    <AcrylicBrush x:Key="BackgroundAcrylicBrush" BackgroundSource="HostBackdrop" TintColor="Black" TintOpacity="0.85" FallbackColor="{ThemeResource SystemChromeMediumLowColor}"/>
+                    <AcrylicBrush x:Key="BackgroundAcrylicBrush" BackgroundSource="HostBackdrop" TintColor="Black" TintOpacity="0.9" FallbackColor="{ThemeResource SystemChromeMediumLowColor}"/>
                     <Color x:Key="DropShadowColor">#FF000000</Color>
                     <Color x:Key="SolidBackgroundColor">#212122</Color>
                 </ResourceDictionary>
