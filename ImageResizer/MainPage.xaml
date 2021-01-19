@@ -80,15 +80,17 @@
         <Button
             x:Name="SettingsBtn"
             Grid.Column="1"
+            Margin="5"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Background="Transparent">
             <Button.Content>
                 <!--  settings icon  -->
-                <FontIcon
+                <SymbolIcon Symbol="Setting" />
+                <!--<FontIcon
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
-                    Glyph="&#xE713;" />
+                    Glyph="&#xE713;" />-->
             </Button.Content>
             <ToolTipService.ToolTip>Open PowerToys Settings</ToolTipService.ToolTip>
         </Button>
@@ -193,6 +195,7 @@
                             VerticalAlignment="Center"
                             FontFamily="Segoe MDL2 Assets"
                             Text="&#xE799;" />
+                        <!--<SymbolIcon Symbol="AspectRatio"/>-->
                     </Border>
                     <ComboBox
                         x:Name="StretchBox"
@@ -261,6 +264,7 @@
                             VerticalAlignment="Center"
                             FontFamily="Segoe MDL2 Assets"
                             Text="&#xECC6;" />
+                        <!--<SymbolIcon Symbol="Unit"/>-->
                         <!--  unit icon  -->
                     </Border>
                     <ComboBox
@@ -296,12 +300,13 @@
             Style="{ThemeResource SplitButtonRevealStyle}">
             <StackPanel Orientation="Horizontal" Spacing="12">
                 <!--  Save icon  -->
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74E;" />
+                <SymbolIcon Symbol="Save" />
                 <TextBlock Text="Resize" />
                 <!--  if you DON'T DECLARE A SPECIFIC COLOR it will automatically follow Win.10 light/dark theme!!  -->
             </StackPanel>
             <controls:SplitButton.Flyout>
                 <MenuFlyout Placement="Bottom">
+                    <!--<FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA35;"/>-->
                     <MenuFlyoutItem Text="Resize a copy" />
                 </MenuFlyout>
             </controls:SplitButton.Flyout>
@@ -318,8 +323,8 @@
             <TextBlock
                 Margin="8,8,0,0"
                 VerticalAlignment="Top"
-                FontSize="12"
                 Text="Image Resizer for Windows" />
+            <!--  font-size 12 is too small  -->
         </StackPanel>
     </Grid>
 </Page>
