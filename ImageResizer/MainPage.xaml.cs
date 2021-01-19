@@ -66,7 +66,12 @@ namespace ImageResizer
             WidthText.Text = S.Width.ToString();
             HeightText.Text = S.Height.ToString();
         }
-    
+
+        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
         //private void RadioButton_Checked(object sender, RoutedEventArgs e)
         //{

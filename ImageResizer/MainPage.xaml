@@ -73,8 +73,26 @@
             Grid.Column="1"
             Margin="12,36,0,0"
             VerticalAlignment="Center"
+            SelectionChanged="TextBlock_SelectionChanged"
             Style="{ThemeResource TitleTextBlockStyle}"
             Text="Configure image size" />
+
+        <Button
+            x:Name="SettingsBtn"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Background="Transparent">
+            <Button.Content>
+                <!--  settings icon  -->
+                <FontIcon
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Glyph="&#xE713;" />
+            </Button.Content>
+            <ToolTipService.ToolTip>Open PowerToys Settings</ToolTipService.ToolTip>
+        </Button>
+
 
 
         <ListView
@@ -199,8 +217,7 @@
                             Padding="0,0,5,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontFamily="Wingdings 3"
-                            Text="1"
+                            Text="&#x2194;"
                             TextAlignment="Center" />
                         <!--  left/right arrow  -->
                     </Border>
@@ -221,8 +238,7 @@
                             Width="16"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontFamily="Wingdings 3"
-                            Text="2"
+                            Text="&#x2195;"
                             TextAlignment="Center" />
                         <!--  up/down arrow  -->
                     </Border>
@@ -275,15 +291,14 @@
             Grid.Row="2"
             Grid.Column="1"
             Margin="12"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="left"
             VerticalAlignment="Bottom"
-            Background="{ThemeResource SystemAccentColor}"
-            Foreground="White"
             Style="{ThemeResource SplitButtonRevealStyle}">
             <StackPanel Orientation="Horizontal" Spacing="12">
                 <!--  Save icon  -->
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74E;" />
                 <TextBlock Text="Resize" />
+                <!--  if you DON'T DECLARE A SPECIFIC COLOR it will automatically follow Win.10 light/dark theme!!  -->
             </StackPanel>
             <controls:SplitButton.Flyout>
                 <MenuFlyout Placement="Bottom">
@@ -291,17 +306,7 @@
                 </MenuFlyout>
             </controls:SplitButton.Flyout>
         </controls:SplitButton>
-
-        <Button
-            x:Name="SettingsBtn"
-            Grid.Row="3"
-            Grid.Column="1"
-            Background="Transparent">
-            <Button.Content>
-                <!--  settings icon  -->
-                <FontIcon Glyph="&#xE713;" />
-            </Button.Content>
-        </Button>
+        <!--  https://docs.microsoft.com/nl-nl/windows/uwp/design/controls-and-patterns/buttons#recommendations dictates a button like this should be left-aligned. Win Photos app does this too.  -->
 
         <StackPanel x:Name="TitleBar" Orientation="Horizontal">
             <Image
