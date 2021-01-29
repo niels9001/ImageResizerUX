@@ -72,6 +72,11 @@ namespace ImageResizer
 
         }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
 
         //private void RadioButton_Checked(object sender, RoutedEventArgs e)
         //{

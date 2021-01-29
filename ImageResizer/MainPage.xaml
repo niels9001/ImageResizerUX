@@ -62,17 +62,31 @@
             Grid.Column="0"
             Background="{ThemeResource SolidBackgroundColor}" />
 
+        <StackPanel x:Name="TitleBar" Orientation="Horizontal">
+            <Image
+                Width="16"
+                Height="16"
+                Margin="12"
+                VerticalAlignment="Top"
+                Source="Assets/ImageResizer.png" />
+            <TextBlock
+                Padding="8"
+                VerticalAlignment="Top"
+                Text="Image Resizer for Windows" />
+            <!--  font-size 12 is too small  -->
+        </StackPanel>
+
         <TextBlock
             Grid.Column="0"
-            Margin="12,36,0,0"
-            VerticalAlignment="Center"
+            Padding="24,0"
+            VerticalAlignment="Bottom"
             Style="{ThemeResource TitleTextBlockStyle}"
             Text="Preview" />
 
         <TextBlock
             Grid.Column="1"
-            Margin="12,36,0,0"
-            VerticalAlignment="Center"
+            Padding="24,0"
+            VerticalAlignment="Bottom"
             SelectionChanged="TextBlock_SelectionChanged"
             Style="{ThemeResource TitleTextBlockStyle}"
             Text="Configure image size" />
@@ -80,7 +94,7 @@
         <Button
             x:Name="SettingsBtn"
             Grid.Column="1"
-            Margin="5"
+            Margin="24,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Background="Transparent">
@@ -117,7 +131,7 @@
                         <ToolkitControls:DropShadowPanel
                             x:Name="DropShadowHolder"
                             Grid.Column="0"
-                            Margin="0,0,0,0"
+                            Margin="0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             BlurRadius="4"
@@ -150,7 +164,6 @@
                             Grid.Column="3"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            FontSize="12"
                             FontWeight="SemiBold"
                             Foreground="{ThemeResource SystemBaseMediumLowColor}"
                             Text="{x:Bind OldDimensions}" />
@@ -167,7 +180,7 @@
             x:Name="SidePanel"
             Grid.Row="1"
             Grid.Column="1"
-            Margin="12,24,12,0"
+            Margin="12"
             Orientation="Vertical">
             <ComboBox
                 x:Name="ImageOptionsComboBox"
@@ -190,12 +203,12 @@
                         BorderBrush="{ThemeResource TextControlBorderBrush}"
                         BorderThickness="1,1,0,1"
                         CornerRadius="2,0,0,2">
+                        <!--<SymbolIcon Symbol="AspectRatio"/>-->
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="Segoe MDL2 Assets"
                             Text="&#xE799;" />
-                        <!--<SymbolIcon Symbol="AspectRatio"/>-->
                     </Border>
                     <ComboBox
                         x:Name="StretchBox"
@@ -215,6 +228,7 @@
                         BorderBrush="{ThemeResource TextControlBorderBrush}"
                         BorderThickness="1,1,0,1"
                         CornerRadius="2,0,0,2">
+                        <!--  left/right arrow  -->
                         <TextBlock
                             Width="16"
                             Padding="0,0,5,0"
@@ -222,7 +236,6 @@
                             VerticalAlignment="Center"
                             Text="&#x2194;"
                             TextAlignment="Center" />
-                        <!--  left/right arrow  -->
                     </Border>
                     <TextBox
                         x:Name="WidthText"
@@ -237,13 +250,13 @@
                         BorderBrush="{ThemeResource TextControlBorderBrush}"
                         BorderThickness="1,1,0,1"
                         CornerRadius="2,0,0,2">
+                        <!--  up/down arrow  -->
                         <TextBlock
                             Width="16"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="&#x2195;"
                             TextAlignment="Center" />
-                        <!--  up/down arrow  -->
                     </Border>
                     <TextBox
                         x:Name="HeightText"
@@ -259,13 +272,13 @@
                         BorderBrush="{ThemeResource TextControlBorderBrush}"
                         BorderThickness="1,1,0,1"
                         CornerRadius="2,0,0,2">
+                        <!--  unit icon  -->
+                        <!--<SymbolIcon Symbol="Unit"/>-->
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="Segoe MDL2 Assets"
                             Text="&#xECC6;" />
-                        <!--<SymbolIcon Symbol="Unit"/>-->
-                        <!--  unit icon  -->
                     </Border>
                     <ComboBox
                         x:Name="CopyCB"
@@ -286,8 +299,76 @@
                 x:Name="PresetCheckBox"
                 Content="Save as new preset"
                 Visibility="Collapsed" />
-            <CheckBox Content="Make pictures smaller, not larger" />
             <CheckBox Content="Ignore the orientation of pictures" IsChecked="True" />
+            <CheckBox Content="Make pictures smaller, not larger" />
+
+            <TextBlock
+                Margin="0,8"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Text="File" />
+
+            <TextBox
+                x:Uid="ImageResizer_FilenameFormatPlaceholder"
+                MinWidth="240"
+                HorizontalAlignment="Stretch"
+                AutomationProperties.HelpText="{Binding ElementName=FileFormatTextBlock, Path=Text}"
+                AutomationProperties.LabeledBy="{Binding ElementName=ImageResizer_FilenameFormatHeader}"
+                Text="%1 (%2)"
+                TextChanged="TextBox_TextChanged">
+                <TextBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Name="ImageResizer_FilenameFormatHeader"
+                            x:Uid="ImageResizer_FilenameFormatHeader"
+                            Text="File name" />
+                        <!--<FontIcon
+                            Margin="8,0"
+                            HorizontalAlignment="Right"
+                            Glyph="&#xE946;" />-->
+                        <TextBlock
+                            Padding="8,0"
+                            VerticalAlignment="Top"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="16"
+                            Foreground="Blue"
+                            Text="&#xE946;" />
+                    </StackPanel>
+                </TextBox.Header>
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Name="FileFormatTextBlock">
+                        <Run
+                            x:Uid="ImageResizer_FileFormatDescription"
+                            FontWeight="Bold"
+                            Text="Description" />
+                        <LineBreak />
+                        <LineBreak />
+                        <Run FontWeight="Bold" Text="%1" />
+                        <Run Text=" = " />
+                        <Run x:Uid="ImageResizer_Formatting_Filename" />
+                        <LineBreak />
+                        <Run FontWeight="Bold" Text="%2" />
+                        <Run Text=" = " />
+                        <Run x:Uid="ImageResizer_Formatting_Sizename" />
+                        <LineBreak />
+                        <Run FontWeight="Bold" Text="%3" />
+                        <Run Text=" = " />
+                        <Run x:Uid="ImageResizer_Formatting_SelectedWidth" />
+                        <LineBreak />
+                        <Run FontWeight="Bold" Text="%4" />
+                        <Run Text=" = " />
+                        <Run x:Uid="ImageResizer_Formatting_SelectedHeight" />
+                        <LineBreak />
+                        <Run FontWeight="Bold" Text="%5" />
+                        <Run Text=" = " />
+                        <Run x:Uid="ImageResizer_Formatting_ActualWidth" />
+                        <LineBreak />
+                        <Run FontWeight="Bold" Text="%6" />
+                        <Run Text=" = " />
+                        <Run x:Uid="ImageResizer_Formatting_ActualHeight" />
+                    </TextBlock>
+                </ToolTipService.ToolTip>
+            </TextBox>
         </StackPanel>
 
 
@@ -306,25 +387,12 @@
             </StackPanel>
             <controls:SplitButton.Flyout>
                 <MenuFlyout Placement="Bottom">
-                    <!--<FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA35;"/>-->
+                    <!--<FontIcon Glyph="&#xEA35;"/>-->
                     <MenuFlyoutItem Text="Resize a copy" />
                 </MenuFlyout>
             </controls:SplitButton.Flyout>
         </controls:SplitButton>
         <!--  https://docs.microsoft.com/nl-nl/windows/uwp/design/controls-and-patterns/buttons#recommendations dictates a button like this should be left-aligned. Win Photos app does this too.  -->
 
-        <StackPanel x:Name="TitleBar" Orientation="Horizontal">
-            <Image
-                Width="16"
-                Height="16"
-                Margin="11,9,0,0"
-                VerticalAlignment="Top"
-                Source="Assets/ImageResizer.png" />
-            <TextBlock
-                Margin="8,8,0,0"
-                VerticalAlignment="Top"
-                Text="Image Resizer for Windows" />
-            <!--  font-size 12 is too small  -->
-        </StackPanel>
     </Grid>
 </Page>
