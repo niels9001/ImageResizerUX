@@ -56,7 +56,7 @@ namespace ImageResizer
 
         private void StretchBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            PresetCheckBox.Visibility = Visibility.Visible;
+            //PresetCheckBox.Visibility = Visibility.Visible;
                 
         }
 

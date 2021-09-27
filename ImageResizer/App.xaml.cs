@@ -62,11 +62,11 @@ namespace ImageResizer
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
-
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(140, 140));
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
             ApplicationView appView = ApplicationView.GetForCurrentView();
             appView.TitleBar.BackgroundColor = Colors.Transparent;
-            appView.Title = "Image Resizer for Windows";
+       
             appView.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 
             if (e.PrelaunchActivated == false)

@@ -11,173 +11,211 @@
     Background="Transparent"
     Loaded="Page_Loaded"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity">
+      muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals">
 
     <Page.Resources>
-        <DataTemplate x:DataType="local:ImageOption" x:Key="ImageOptionDataTemplate">
+        <DataTemplate x:DataType="local:ImageOption"
+                      x:Key="ImageOptionDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="{x:Bind Title}" FontSize="16" Grid.Column="1" FontWeight="SemiBold"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="1" Spacing="4" Grid.Column="1" Margin="0,0,0,0" >
-                    <TextBlock Text="Fits within" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                    <TextBlock Text="{x:Bind Width}" FontWeight="SemiBold" />
-                    <TextBlock Text="x" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                    <TextBlock Text="{x:Bind Height}" FontWeight="SemiBold"/>
-                    <TextBlock Text="{x:Bind Unit}" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                <TextBlock Text="{x:Bind Title}"
+                           FontSize="16"
+                           Grid.Column="1"
+                           FontWeight="SemiBold" />
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="1"
+                            Spacing="4"
+                            Grid.Column="1"
+                            Margin="0,4,0,0">
+                    <TextBlock Text="Fits within"
+                               Foreground="{ThemeResource SystemBaseMediumColor}" />
+                    <TextBlock Text="{x:Bind Width}"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="x"
+                               Foreground="{ThemeResource SystemBaseMediumColor}" />
+                    <TextBlock Text="{x:Bind Height}"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="{x:Bind Unit}"
+                               Foreground="{ThemeResource SystemBaseMediumColor}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BackgroundAcrylicBrush}">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="86"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="64"/>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="68" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" x:Name="PreviewColumn"/>
-            <ColumnDefinition Width="320" />
-        </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0"
-              Background="{ThemeResource SolidBackgroundColor}"
-              Grid.RowSpan="3"/>
+        <ComboBox x:Name="ImageOptionsComboBox"
+                  Height="64"
+                  Grid.Row="1"
+                  ItemsSource="{x:Bind ImageOptions}"
+                  ItemTemplate="{StaticResource ImageOptionDataTemplate}"
+                  SelectedIndex="0"
+                  Margin="16,32,16,24"
+                  HorizontalAlignment="Stretch" />
 
-        <TextBlock Text="Preview"
-                   FontWeight="Bold"
-                   FontSize="16"
-                   Grid.Column="0"
-                   Style="{ThemeResource TitleTextBlockStyle}"
-                   VerticalAlignment="Center"
-                   Margin="12,36,0,0"/>
-
-        <TextBlock Text="Configure image size"
-                   FontWeight="Bold"
-                   FontSize="16"
-                   Grid.Column="1"
-                   Style="{ThemeResource TitleTextBlockStyle}"
-                   VerticalAlignment="Center"
-                   Margin="12,36,0,0" />
-
+        <Grid BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              BorderThickness="0,1,0,0"
+              Grid.Row="2"
+              Background="{ThemeResource LayerFillColorDefaultBrush}" Grid.RowSpan="2"
+              Padding="16">
         
-        <ListView ItemsSource="{x:Bind SelectedPhotos, Mode=TwoWay}"
-                  IsItemClickEnabled="False"
-                  Margin="0,24,0,0"
-                  Grid.Column="0"
-                  extensions:ListViewExtensions.AlternateColor="#11AAAAAA"
-                  Grid.RowSpan="2"
-                  Grid.Row="1">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:Photo">
-                    <Grid Height="64">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="220"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="40"/>
-                        </Grid.ColumnDefinitions>
-                        <ToolkitControls:DropShadowPanel x:Name="DropShadowHolder" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0"
-                               BlurRadius="4"
-                               ShadowOpacity="0.2"
-                               OffsetX="0"
-                               OffsetY="4"
-                               Color="{StaticResource DropShadowColor}">
-                            <Image Source="{x:Bind Path}" Width="48"  />
-                        </ToolkitControls:DropShadowPanel>
+         
+            <StackPanel Grid.Column="0" Margin="0,8,0,0" Grid.ColumnSpan="2"  Grid.Row="1" Spacing="8" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="-6,0,0,0">
+                        <Border Width="32"
+                                Height="33">
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       FontSize="12"
+                                       Text="W"
+                                       FontWeight="SemiBold"
+                                       Margin="-2,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                            <ToolTipService.ToolTip>Height</ToolTipService.ToolTip>
+                        </Border>
+                    <muxc:NumberBox x:Name="WidthText"
+                                    Width="146" Text="854" />
 
-                        <TextBlock Text="{x:Bind FileName}" Margin="12,0,0,0" Grid.Column="1" VerticalAlignment="Center" />
-                        <Border CornerRadius="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="2" BorderBrush="{ThemeResource SystemAccentColor}">
-                            <TextBlock  Foreground="{ThemeResource SystemAccentColor}" FontSize="12" Text="{x:Bind Dimensions}" FontWeight="SemiBold"  Padding="8,4,8,4" />
+                        <Border Width="32" Margin="12,0,0,0"
+                                Height="33">
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       FontSize="12"
+                                       Text="H"
+                                       FontWeight="SemiBold"
+                                       Margin="-2,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                            <ToolTipService.ToolTip>Height</ToolTipService.ToolTip>
                         </Border>
-                        <TextBlock Text="{x:Bind OldDimensions}" FontSize="12" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{ThemeResource SystemBaseMediumLowColor}"/>
-                        <!--<Border CornerRadius="4" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{ThemeResource SystemAccentColor}">
-                            <TextBlock FontSize="12" Foreground="{ThemeResource SystemAccentColor}" Text="{x:Bind Size}" Padding="8,4,8,4" />
-                        </Border>
-                        <TextBlock Text="{x:Bind OldSize}" FontSize="12" Grid.Column="6" Margin="-12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{ThemeResource SystemBaseMediumLowColor}"/> -->
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                        <muxc:NumberBox x:Name="HeightText"
+                                 Text="480"
+                                 Width="146" />
+                     
+                    </StackPanel>
 
-        <StackPanel x:Name="SidePanel" Orientation="Vertical" Margin="12,24,12,0" Grid.Column="1" Grid.Row="1">
-            <ComboBox x:Name="ImageOptionsComboBox" Height="64" ItemsSource="{x:Bind ImageOptions}" ItemTemplate="{StaticResource ImageOptionDataTemplate}" SelectedIndex="0" HorizontalAlignment="Stretch"/>
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,24,0,24" Grid.Row="1" Spacing="8" Orientation="Vertical">
-                <StackPanel Orientation="Horizontal">
-                    <Border Width="32" Height="33" Background="{ThemeResource PrefixBorderBackgroundColor}" BorderBrush="{ThemeResource TextControlBorderBrush}" BorderThickness="1,1,0,1" CornerRadius="2,0,0,2">
-                        <TextBlock  Foreground="{ThemeResource PrefixBorderForegroundColor}" FontSize="12" Text="W" Margin="-2,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <ToolTipService.ToolTip>Width</ToolTipService.ToolTip>
-                        </Border>
-                    <TextBox x:Name="WidthText" CornerRadius="0,2,2,0" Width="110" Text="854" />
-                        <ComboBox x:Name="OriginalCB" SelectedIndex="0" Height="33" Width="142" Margin="12,0,0,0">
-                            <ComboBoxItem>Pixels</ComboBoxItem>
-                            <ComboBoxItem>Percent</ComboBoxItem>
-                            <ComboBoxItem>Inches</ComboBoxItem>
-                            <ComboBoxItem>Centimeters</ComboBoxItem>
-                        </ComboBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                    <Border Width="32" Height="33" Background="{ThemeResource PrefixBorderBackgroundColor}" BorderBrush="{ThemeResource TextControlBorderBrush}" BorderThickness="1,1,0,1" CornerRadius="2,0,0,2">
-                        <TextBlock Foreground="{ThemeResource PrefixBorderForegroundColor}" FontSize="12" Text="H" Margin="-2,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <ToolTipService.ToolTip>Height</ToolTipService.ToolTip>
-                    </Border>
-                    <TextBox x:Name="HeightText" Text="480" CornerRadius="0,2,2,0" Width="110" />
-                        <ComboBox x:Name="CopyCB" SelectedIndex="{Binding ElementName=OriginalCB, Path=SelectedIndex}" Height="33" Width="142" Margin="12,0,0,0">
-                            <ComboBoxItem>Pixels</ComboBoxItem>
-                            <ComboBoxItem>Percent</ComboBoxItem>
-                            <ComboBoxItem>Inches</ComboBoxItem>
-                            <ComboBoxItem>Centimeters</ComboBoxItem>
-                        </ComboBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                    <Border Width="32" Height="33" Background="{ThemeResource PrefixBorderBackgroundColor}" BorderBrush="{ThemeResource TextControlBorderBrush}" BorderThickness="1,1,0,1" CornerRadius="2,0,0,2">
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource PrefixBorderForegroundColor}" FontSize="12" Text="&#xE740;" Margin="-2,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal"
+                                Margin="-6,12,0,0">
+                    <Border Width="32"
+                            Margin="0,0,0,0"
+                            Height="33">
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   FontSize="12"
+                                   Text="&#xED5E;"
+                                   FontFamily="Segoe Fluent Icons"
+                                
+                                   Margin="-2,0,0,0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
                         <ToolTipService.ToolTip>Stretch</ToolTipService.ToolTip>
                     </Border>
-                        <ComboBox x:Name="StretchBox" SelectedIndex="0" Height="33" Width="110" CornerRadius="0,2,2,0" Margin="0,0,0,0">
+
+                    <ComboBox x:Name="OriginalCB"
+                              SelectedIndex="0"
+                       
+                              Width="146">
+                        <ComboBoxItem>pixels</ComboBoxItem>
+                        <ComboBoxItem>percent</ComboBoxItem>
+                        <ComboBoxItem>inches</ComboBoxItem>
+                        <ComboBoxItem>centimeters</ComboBoxItem>
+                    </ComboBox>
+                        
+                    <Border Width="32"
+                                Margin="12,0,0,0"
+                                Height="33">
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      
+                                       Text="&#xE740;"
+                                       FontFamily="Segoe Fluent Icons"
+                                    
+                                       Margin="-2,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                            <ToolTipService.ToolTip>Stretch</ToolTipService.ToolTip>
+                        </Border>
+
+                    <ComboBox x:Name="StretchBox"
+                              SelectedIndex="0"
+                              Width="146" >
                             <ComboBoxItem>Fill</ComboBoxItem>
                             <ComboBoxItem>Fit</ComboBoxItem>
                             <ComboBoxItem>Stretch</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
-                </StackPanel>
+            
               
-            <CheckBox x:Name="PresetCheckBox" Margin="0,8,0,0" Content="Save as new preset" Visibility="Collapsed" />
-            <CheckBox Margin="0,8,0,0" Content="Make pictures smaller, not larger" />
-            <CheckBox Margin="0,8,0,0" IsChecked="True" Content="Ignore the orientation of pictures" />
+
+            <CheckBox Margin="0,16,0,0" Content="Make pictures smaller, not larger" />
+            <CheckBox Margin="0,0,0,0" IsChecked="True" Content="Ignore the orientation of pictures" />
         </StackPanel>
+        </Grid>
 
-
-        <controls:SplitButton Style="{ThemeResource SplitButtonRevealStyle}" Margin="12" Grid.Row="2" Foreground="White" Background="{ThemeResource SystemAccentColor}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <StackPanel Orientation="Horizontal" Spacing="12">
-                <FontIcon Glyph="&#xE73F;" FontSize="14" FontFamily="Segoe MDL2 Assets" />
-                <TextBlock Text="Resize"/>
-            </StackPanel>
-            <controls:SplitButton.Flyout>
-                <MenuFlyout Placement="Bottom">
-                    <MenuFlyoutItem Text="Resize a copy"/>
-                </MenuFlyout>
-            </controls:SplitButton.Flyout>
-        </controls:SplitButton>
-        
-        <Button x:Name="SettingsBtn" Grid.Row="3" Background="Transparent" Grid.Column="1" Margin="8,8,0,0">
+        <Button x:Name="SettingsBtn"
+                Height="32"
+                ToolTipService.ToolTip="Settings"
+                FontFamily="Segoe Fluent Icons"
+                Grid.Row="3"
+                Margin="4,0,0,16"
+                VerticalAlignment="Bottom"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Grid.Column="1">
             <Button.Content>
-                <FontIcon Glyph="&#xE713;" />
+                <muxc:AnimatedIcon x:Name="SearchAnimatedIcon">
+                    <muxc:AnimatedIcon.Source>
+                        <animatedvisuals:AnimatedSettingsVisualSource />
+                    </muxc:AnimatedIcon.Source>
+                    <muxc:AnimatedIcon.FallbackIconSource>
+                        <muxc:SymbolIconSource Symbol="Find" />
+                    </muxc:AnimatedIcon.FallbackIconSource>
+                </muxc:AnimatedIcon>
+
             </Button.Content>
         </Button>
         
-        <StackPanel x:Name="TitleBar" Orientation="Horizontal">
-            <Image Source="Assets/ImageResizer.png" Width="16" Height="16" VerticalAlignment="Top" Margin="11,9,0,0"/>
-            <TextBlock Text="Image Resizer for Windows" FontSize="12" Margin="8,8,0,0" VerticalAlignment="Top" />
+        <Button Grid.Row="3"
+                Margin="16"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource AccentButtonStyle}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE13E;"
+                               VerticalAlignment="Center"
+                               Margin="0,2,8,0"
+                               FontFamily="Segoe Fluent Icons" />
+                    <TextBlock Text="Resize" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
+
+
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.ColumnSpan="2"
+                    VerticalAlignment="Top"
+                    Margin="16,8,8,8">
+            <Image Source="ms-appx:///Assets/ImageResizer.png"
+                   Width="16" />
+            <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
+                       Margin="12,0,0,0"
+                       Text="Image Resizer" />
         </StackPanel>
     </Grid>
 </Page>
