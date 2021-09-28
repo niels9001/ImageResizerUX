@@ -235,7 +235,7 @@
                 Style="{StaticResource AccentButtonStyle}">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE13E;"
+                        <TextBlock Text="&#xE1D8;"
                                VerticalAlignment="Center"
                                Margin="0,2,8,0"
                                FontFamily="Segoe Fluent Icons" />
