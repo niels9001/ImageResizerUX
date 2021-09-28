@@ -139,7 +139,7 @@
                             Margin="0,0,0,0"
                             Height="33">
                         <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   FontSize="12"
+                               
                                    Text="&#xED5E;"
                                    FontFamily="Segoe Fluent Icons"
                                 
@@ -192,7 +192,7 @@
         </Grid>
 
 
-        <Rectangle Height="1" Fill="{ThemeResource CardStrokeColorDefaultBrush}" />
+        <Rectangle Height="1" Fill="{ThemeResource CardStrokeColorDefaultBrush}" Grid.Row="3" VerticalAlignment="Top" />
         <Button x:Name="SettingsBtn"
                 Height="32"
                 ToolTipService.ToolTip="Settings"
