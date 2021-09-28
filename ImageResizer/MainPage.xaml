@@ -18,6 +18,22 @@
       xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals">
 
     <Page.Resources>
+        <local:ImageOptionTemplateSelector x:Key="ImageOptionTemplateSelectorrr" PresetTemplate="{StaticResource ImageOptionDataTemplate}" CustomTemplate="{StaticResource CustomImageOptionDataTemplate}" />
+        
+        <DataTemplate x:DataType="local:ImageOption"
+                      x:Key="CustomImageOptionDataTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Bind Title}"
+                           FontSize="16"
+                           Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontWeight="SemiBold" />
+               
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:DataType="local:ImageOption"
                       x:Key="ImageOptionDataTemplate">
             <Grid>
@@ -38,15 +54,20 @@
                             Grid.Column="1"
                             Margin="0,4,0,0">
                     <TextBlock Text="Fits within"
-                               Foreground="{ThemeResource SystemBaseMediumColor}" />
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                     <TextBlock Text="{x:Bind Width}"
+                                   FontSize="12"
                                FontWeight="SemiBold" />
                     <TextBlock Text="x"
-                               Foreground="{ThemeResource SystemBaseMediumColor}" />
+                                   FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                     <TextBlock Text="{x:Bind Height}"
+                                   FontSize="12"
                                FontWeight="SemiBold" />
                     <TextBlock Text="{x:Bind Unit}"
-                               Foreground="{ThemeResource SystemBaseMediumColor}" />
+                                   FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -64,7 +85,8 @@
                   Height="64"
                   Grid.Row="1"
                   ItemsSource="{x:Bind ImageOptions}"
-                  ItemTemplate="{StaticResource ImageOptionDataTemplate}"
+                  ItemTemplateSelector="{StaticResource ImageOptionTemplateSelectorrr}"
+              
                   SelectedIndex="0"
                   Margin="16,32,16,24"
                   HorizontalAlignment="Stretch" />
@@ -90,6 +112,7 @@
                             <ToolTipService.ToolTip>Height</ToolTipService.ToolTip>
                         </Border>
                     <muxc:NumberBox x:Name="WidthText"
+                                   
                                     Width="146" Text="854" />
 
                         <Border Width="32" Margin="12,0,0,0"
@@ -104,6 +127,7 @@
                             <ToolTipService.ToolTip>Height</ToolTipService.ToolTip>
                         </Border>
                         <muxc:NumberBox x:Name="HeightText"
+                                    
                                  Text="480"
                                  Width="146" />
                      
@@ -125,8 +149,9 @@
                         <ToolTipService.ToolTip>Stretch</ToolTipService.ToolTip>
                     </Border>
 
-                    <ComboBox x:Name="OriginalCB"
+                    <ComboBox x:Name="UnitCB"
                               SelectedIndex="0"
+                           
                        
                               Width="146">
                         <ComboBoxItem>pixels</ComboBoxItem>
@@ -151,6 +176,7 @@
 
                     <ComboBox x:Name="StretchBox"
                               SelectedIndex="0"
+                            
                               Width="146" >
                             <ComboBoxItem>Fill</ComboBoxItem>
                             <ComboBoxItem>Fit</ComboBoxItem>
@@ -165,6 +191,8 @@
         </StackPanel>
         </Grid>
 
+
+        <Rectangle Height="1" Fill="{ThemeResource CardStrokeColorDefaultBrush}" />
         <Button x:Name="SettingsBtn"
                 Height="32"
                 ToolTipService.ToolTip="Settings"
@@ -187,22 +215,36 @@
 
             </Button.Content>
         </Button>
-        
-        <Button Grid.Row="3"
-                Margin="16"
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Spacing="8" HorizontalAlignment="Right"
+                Margin="16">
+            <Button
+                    Visibility="Collapsed"
+                    x:Name="SaveButton"
+                    Click="SaveButton_Click"
+                Content="&#xE105;"
+                FontFamily="Segoe Fluent Icons"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Height="34"
+                Background="Transparent" BorderBrush="Transparent">
+            </Button>
+            <Button 
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Style="{StaticResource AccentButtonStyle}">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE13E;"
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE13E;"
                                VerticalAlignment="Center"
                                Margin="0,2,8,0"
                                FontFamily="Segoe Fluent Icons" />
-                    <TextBlock Text="Resize" />
-                </StackPanel>
-            </Button.Content>
-        </Button>
+                        <TextBlock Text="Resize" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+       
 
 
 
@@ -217,5 +259,16 @@
                        Margin="12,0,0,0"
                        Text="Image Resizer" />
         </StackPanel>
+
+        <ContentDialog x:Name="SaveDialog"
+                      
+           PrimaryButtonText="Save" Title="Add new preset"
+                       IsPrimaryButtonEnabled="True"
+           CloseButtonText="Cancel">
+            <StackPanel>
+                <TextBox Header="Name" />
+            </StackPanel>
+          
+        </ContentDialog>
     </Grid>
 </Page>

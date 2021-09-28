@@ -45,28 +45,64 @@ namespace ImageResizer
             ImageOptions.Add(new ImageOption() { Title = "Small", Width = 854, Height = 480, Unit = "inches" });
             ImageOptions.Add(new ImageOption() { Title = "Medium", Width = 1366, Height = 768, Unit = "pixels" });
             ImageOptions.Add(new ImageOption() { Title = "Large", Width = 1920, Height = 1080, Unit = "pixels" });
+            
 
         }
+
+
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             ImageOptionsComboBox.SelectionChanged += ImageOptionsComboBox_SelectionChanged;
-            StretchBox.SelectionChanged += StretchBox_SelectionChanged;
+            ImageOptionsComboBox.SelectedIndex = 0;
+            WidthText.ValueChanged += Number_ValueChanged;
+            HeightText.ValueChanged += Number_ValueChanged;
+            StretchBox.SelectionChanged += ComboBox_SelectionChanged;
+            UnitCB.SelectionChanged += ComboBox_SelectionChanged;
         }
 
-        private void StretchBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //PresetCheckBox.Visibility = Visibility.Visible;
-                
-        }
 
         private void ImageOptionsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        { 
+            ImageOption S = ImageOptionsComboBox.SelectedItem as ImageOption;
+            if (!S.IsCustom)
+            {
+                WidthText.Text = S.Width.ToString();
+                HeightText.Text = S.Height.ToString();
+                SaveButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                SaveButton.Visibility = Visibility.Visible;
+                    
+            }
+        }
+
+        private void Number_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
         {
             ImageOption S = ImageOptionsComboBox.SelectedItem as ImageOption;
-            WidthText.Text = S.Width.ToString();
-            HeightText.Text = S.Height.ToString();
+            if (!S.IsCustom)
+            {
+                ImageOptions.Add(new ImageOption() { Title = "Custom", IsCustom = true, Width = (int)WidthText.Value, Height = (int)HeightText.Value, Unit = UnitCB.SelectionBoxItem.ToString() });
+                ImageOptionsComboBox.SelectedIndex = ImageOptionsComboBox.Items.Count() - 1;
+            }
         }
-    
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ImageOption S = ImageOptionsComboBox.SelectedItem as ImageOption;
+            if (!S.IsCustom)
+            {
+                ImageOptions.Add(new ImageOption() { Title = "Custom", IsCustom = true, Width = (int)WidthText.Value, Height = (int)HeightText.Value, Unit = UnitCB.SelectionBoxItem.ToString() });
+                ImageOptionsComboBox.SelectedIndex = ImageOptionsComboBox.Items.Count() - 1;
+            }
+        }
+
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            await SaveDialog.ShowAsync();
+        }
+
 
         //private void RadioButton_Checked(object sender, RoutedEventArgs e)
         //{
@@ -97,5 +133,37 @@ namespace ImageResizer
         public int Width { get; set; }
         public int Height { get; set; }
         public string Unit { get; set; }
+        public bool IsCustom { get; set; } = false;
+    }
+
+    public class ImageOptionTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate PresetTemplate
+        {
+            get;
+            set;
+        }
+
+        public DataTemplate CustomTemplate
+        {
+            get;
+            set;
+        }
+
+
+        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+        {
+            ImageOption SelectedImageOption = item as ImageOption;
+
+            if (SelectedImageOption.IsCustom)
+            {
+                return this.CustomTemplate;
+            }
+            else
+            {
+                return this.PresetTemplate;
+            }
+        }
     }
 }
+
