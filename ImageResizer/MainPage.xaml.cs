@@ -103,6 +103,13 @@ namespace ImageResizer
             await SaveDialog.ShowAsync();
         }
 
+        private void SaveDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            SaveButton.Visibility = Visibility.Collapsed;
+            ImageOptions.Add(new ImageOption() { Title = NameBox.Text, IsCustom = false, Width = (int)WidthText.Value, Height = (int)HeightText.Value, Unit = UnitCB.SelectionBoxItem.ToString() });
+            ImageOptionsComboBox.SelectedIndex = ImageOptionsComboBox.Items.Count() - 1;
+        }
+
 
         //private void RadioButton_Checked(object sender, RoutedEventArgs e)
         //{

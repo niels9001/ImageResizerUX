@@ -154,10 +154,10 @@
                            
                        
                               Width="146">
-                        <ComboBoxItem>pixels</ComboBoxItem>
-                        <ComboBoxItem>percent</ComboBoxItem>
-                        <ComboBoxItem>inches</ComboBoxItem>
-                        <ComboBoxItem>centimeters</ComboBoxItem>
+                        <ComboBoxItem>Pixels</ComboBoxItem>
+                        <ComboBoxItem>Percent</ComboBoxItem>
+                        <ComboBoxItem>Inches</ComboBoxItem>
+                        <ComboBoxItem>Centimeters</ComboBoxItem>
                     </ComboBox>
                         
                     <Border Width="32"
@@ -261,12 +261,12 @@
         </StackPanel>
 
         <ContentDialog x:Name="SaveDialog"
-                      
+                      PrimaryButtonClick="SaveDialog_PrimaryButtonClick"
            PrimaryButtonText="Save" Title="Add new preset"
                        IsPrimaryButtonEnabled="True"
            CloseButtonText="Cancel">
             <StackPanel>
-                <TextBox Header="Name" />
+                <TextBox Header="Name" x:Name="NameBox" />
             </StackPanel>
           
         </ContentDialog>
